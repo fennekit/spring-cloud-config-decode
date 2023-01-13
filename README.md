@@ -8,3 +8,4 @@ The initial 16 byte from the cypher from Spring Cloud config are the IV of the A
 
 There appears to be an issue with config server https://github.com/spring-cloud/spring-cloud-config/issues/2208. It appears to always use the default salt, strong, and algorithm settings
 
+Could be useful for https://github.com/SteeltoeOSS/Steeltoe/issues/509
