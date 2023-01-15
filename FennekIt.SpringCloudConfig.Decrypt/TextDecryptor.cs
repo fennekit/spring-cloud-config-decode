@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Fennekit.SpringCloudConfig.Decrypt;
 
-public class TextDecryptor
+public class TextDecryptor : ITextDecryptor
 {
     private readonly byte[] _key;
     private readonly byte[] _salt;
@@ -15,11 +15,24 @@ public class TextDecryptor
         _key = KeyDerivation.Pbkdf2(key, _salt, KeyDerivationPrf.HMACSHA1, 1024, 256/8);
         _algorithm = algorithm;
     }
+    
+    public TextDecryptor(byte[] key, string salt = "deadbeef", string algorithm="DEFAULT")
+    {
+        _salt = Convert.FromHexString(salt);
+        _key = key;
+        _algorithm = algorithm;
+    }
+    
 
     public string Decrypt(string cipher)
     {
         var fullCipher = Convert.FromHexString(cipher);
         
+       return Decrypt(fullCipher);
+    }
+    
+    public string Decrypt(byte[] fullCipher)
+    {
         var iv = new byte[16];
         var cipherBytes = new byte[fullCipher.Length-16];
 

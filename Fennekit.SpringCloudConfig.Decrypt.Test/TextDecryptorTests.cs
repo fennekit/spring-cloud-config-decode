@@ -6,7 +6,7 @@ public class TextDecryptorTests
 {
     [Test]
     [TestCaseSource(nameof(GetTestVector))]
-    public void Test1(string salt, string algorithm, string key, string cipher, string plainText)
+    public void DecodeTestForSpringConfigCipher(string salt, string algorithm, string key, string cipher, string plainText)
     {
         var textDecryptor = new TextDecryptor(key, salt, algorithm);
         var decrypted = textDecryptor.Decrypt(cipher);

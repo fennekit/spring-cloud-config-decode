@@ -20,4 +20,10 @@
       <ProjectReference Include="..\FennekIt.SpringCloudConfig.Decrypt\FennekIt.SpringCloudConfig.Decrypt.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="server.jks">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
