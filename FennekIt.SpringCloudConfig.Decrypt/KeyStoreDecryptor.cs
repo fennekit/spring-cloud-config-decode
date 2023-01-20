@@ -41,11 +41,13 @@ public class KeyStoreDecryptor : ITextDecryptor
     {
         var fullCipher = Convert.FromBase64String(cipher);
         using var msDecrypt = new MemoryStream(fullCipher);
+        //Get size of the secret
         var length = readInt(msDecrypt);
+        //Process secret
         byte[] random = new byte[length];
         msDecrypt.Read(random);
         var secret = Convert.ToHexString(_cipher.DoFinal(random)).ToLower();
-
+        //Get cipher text
         byte[] buffer = new byte[fullCipher.Length - random.Length - 2];
         msDecrypt.Read(buffer);
 
