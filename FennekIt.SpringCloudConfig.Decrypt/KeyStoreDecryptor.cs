@@ -10,12 +10,13 @@ namespace Fennekit.SpringCloudConfig.Decrypt;
 public class KeyStoreDecryptor : ITextDecryptor
 {
     private readonly IBufferedCipher _cipher;
-    private readonly byte[] _salt;
+    private readonly string _salt;
+    private readonly bool _strong;
 
-    public KeyStoreDecryptor(string filename, string password, string alias, string salt = "deadbeaf")
+    public KeyStoreDecryptor(string filename, string password, string alias, string salt = "deadbeaf", bool strong = false)
     {
-        _salt = Convert.FromHexString(salt);
-
+        _salt = salt;
+        _strong = strong;
         var keyProvider = new KeyProvider(filename, password);
         var asymmetricKeyParameter = keyProvider.GetKey(alias);
         _cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1");
@@ -34,7 +35,7 @@ public class KeyStoreDecryptor : ITextDecryptor
         byte[] buffer = new byte[fullCipher.Length - random.Length - 2];
         msDecrypt.Read(buffer);
         
-        TextDecryptor decryptor = new TextDecryptor(secret);
+        TextDecryptor decryptor = new TextDecryptor(secret, salt: _salt, strong: _strong);
         return decryptor.Decrypt(buffer);
     }
 
