@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FennekIt.SpringCloudConfig.Decrypt", "FennekIt.SpringCloudConfig.Decrypt\FennekIt.SpringCloudConfig.Decrypt.csproj", "{80CF4D53-85D6-4E3A-A373-962A15495E6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fennekit.SpringCloudConfig.Decrypt", "Fennekit.SpringCloudConfig.Decrypt\Fennekit.SpringCloudConfig.Decrypt.csproj", "{80CF4D53-85D6-4E3A-A373-962A15495E6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fennekit.SpringCloudConfig.Decrypt.Test", "Fennekit.SpringCloudConfig.Decrypt.Test\Fennekit.SpringCloudConfig.Decrypt.Test.csproj", "{D1C81C0A-6E0D-4703-AEB8-2152DB2D50E3}"
 EndProject

@@ -5,13 +5,13 @@ using Org.BouncyCastle.Security;
 
 namespace Fennekit.SpringCloudConfig.Decrypt.Test;
 
-public class KeyStoreDecryptorTest
+public class RsaKeyStoreDecryptorTest
 {
     [Test]
     public void CreateWith()
     {
         Assert.Throws(typeof(ArgumentException),
-            () => new KeyStoreDecryptor("server.jks", "letmein", "mytestkey", algorithm: "Exception"));
+            () => new RsaKeyStoreDecryptor("server.jks", "letmein", "mytestkey", algorithm: "Exception"));
     }
 
     [Test]
@@ -19,7 +19,7 @@ public class KeyStoreDecryptorTest
     public void DecodeTestForSpringConfigCipher(string salt, string strong, string algorithm, string cipher,
         string plainText)
     {
-        KeyStoreDecryptor decryptor = new KeyStoreDecryptor("server.jks", "letmein", "mytestkey", salt: salt,
+        RsaKeyStoreDecryptor decryptor = new RsaKeyStoreDecryptor("server.jks", "letmein", "mytestkey", salt: salt,
             strong: Boolean.Parse(strong), algorithm: algorithm);
         var decrypted = decryptor.Decrypt(cipher);
 

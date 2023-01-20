@@ -2,13 +2,13 @@ using NUnit.Framework;
 
 namespace Fennekit.SpringCloudConfig.Decrypt.Test;
 
-public class TextDecryptorTests
+public class AesTextDecryptorTests
 {
     [Test]
     [TestCaseSource(nameof(GetTestVector))]
     public void DecodeTestForSpringConfigCipher(string salt, string key, string cipher, string plainText)
     {
-        var textDecryptor = new TextDecryptor(key, salt);
+        var textDecryptor = new AesTextDecryptor(key, salt);
         var decrypted = textDecryptor.Decrypt(cipher);
         Assert.That(decrypted, Is.EqualTo(plainText));
     }

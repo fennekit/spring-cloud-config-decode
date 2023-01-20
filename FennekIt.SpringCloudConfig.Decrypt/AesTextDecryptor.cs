@@ -6,19 +6,20 @@ using Org.BouncyCastle.Security;
 
 namespace Fennekit.SpringCloudConfig.Decrypt;
 
-public class TextDecryptor : ITextDecryptor
+public class AesTextDecryptor : ITextDecryptor
 {
+    private readonly short KEYSIZE = 256;
     private readonly byte[] _key;
     private readonly IBufferedCipher _cipher;
 
-    public TextDecryptor(string key, string salt = "deadbeef", bool strong = false)
+    public AesTextDecryptor(string key, string salt = "deadbeef", bool strong = false)
     {
         _cipher = strong
             ? CipherUtilities.GetCipher("AES/GCM/NoPadding")
             : CipherUtilities.GetCipher("AES/CBC/PKCS5Padding");
         var saltBytes = Convert.FromHexString(salt);
         
-        _key =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, 256 / 8);
+        _key =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, KEYSIZE / 8);
     }
 
     public string Decrypt(string cipher)
@@ -37,11 +38,16 @@ public class TextDecryptor : ITextDecryptor
         ms.Read(iv);
         ms.Read(cipherBytes);
         
+        InitializeCipher(iv);
+
+        var clearTextBytes = _cipher.DoFinal(cipherBytes);
+        return UTF8Encoding.Default.GetString(clearTextBytes);
+    }
+
+    private void InitializeCipher(byte[] iv)
+    {
         var keyParam = new KeyParameter(_key);
         var keyParameters = new ParametersWithIV(keyParam, iv);
         _cipher.Init(false, keyParameters);
-        
-        var clearTextBytes = _cipher.DoFinal(cipherBytes);
-        return UTF8Encoding.Default.GetString(clearTextBytes);
     }
 }
