@@ -8,7 +8,7 @@ namespace Fennekit.SpringCloudConfig.Decrypt.Test;
 public class RsaKeyStoreDecryptorTest
 {
     [Test]
-    public void CreateWith()
+    public void CreateWithUnsupportedAlgorithmThrows()
     {
         Assert.Throws(typeof(ArgumentException),
             () => new RsaKeyStoreDecryptor("server.jks", "letmein", "mytestkey", algorithm: "Exception"));
