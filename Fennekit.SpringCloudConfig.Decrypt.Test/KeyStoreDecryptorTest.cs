@@ -8,6 +8,13 @@ namespace Fennekit.SpringCloudConfig.Decrypt.Test;
 public class KeyStoreDecryptorTest
 {
     [Test]
+    public void CreateWith()
+    {
+        Assert.Throws(typeof(ArgumentException),
+            () => new KeyStoreDecryptor("server.jks", "letmein", "mytestkey", algorithm: "Exception"));
+    }
+
+    [Test]
     [TestCaseSource(nameof(GetTestVector))]
     public void DecodeTestForSpringConfigCipher(string salt, string strong, string algorithm, string cipher,
         string plainText)
@@ -29,7 +36,7 @@ public class KeyStoreDecryptorTest
             "AQATBPXCmri0MCEoCam0noXJgKGlFfE/chVN7XhH1V23MqJ8sI3lI61PyvsryJP3LlfNn38gUuulMeslAs/gUCoPFPV/zD7M8x527wQUbmWD6bR0ZMJ4hu3DisK6Diw2YAOxXSsm3Zh46cPFQcowfOG1x2OXj+5uL4T+VBGdt3Nr6dHCOumkTJ1KAtaJMfASf3J8G4M27v6m4Y2EdBqP1zWwDhAZ3R0u9uTP9xYUqQiKsUeOixrhOaCvtb1Q+Zg6A41CxM4cjL3Ty6miNYLx3QkxRvfkdo0iqo7jTrWWAT1aeRV6t5U5iMlWnD4eXzad60E3ZSINhvDiB03xPPPuHKC6qUTRJEEbQFegmn/KIPMMn9WaH/JLLZNvQYMuaFszZ84AE3aQcH0be+sNFDSjHNHL",
             "encrypt the world"
         };
-        
+
         yield return new[]
         {
             "deadbeef",
@@ -38,7 +45,7 @@ public class KeyStoreDecryptorTest
             "AQBoZM07gyw+GN0SXCkARLiSDjhN0flk07QP9+BsNnPEQD+alfH6A5FJwwuEf7d/kNJozppaZuHcPpDnRZbzmsRcqOcO0BiJFjsbX5K9o8jcAsGhDmLAf0jy/Ry1de6bELjZ4MPArbVN9numHTre4plXBXun2AVeNNBYG3yHed0A68o6FCc6UR/Pfdo/H+oTburn2qVKaZL+DAqIKHntcZjTLg/ZRa7MKUMCKiFEtV88U3lg+1YUqgz+XUmg2zyUsHgHNzYlTOtJWkFW51wNz/M2C92Zsu4R6bF1ewb2RM0N8VmjQAw6GpfLNX+CB3gGlDPsfGjc9qiF3zNsJSk88dm1+NruXeon5Nth691NQJ6DpgMXhhFzv7L/eyZKL/kZpGIVZK6dW3iePzsBtuFdrjiZ",
             "encrypt the world"
         };
-        
+
         yield return new[]
         {
             "beefdead",

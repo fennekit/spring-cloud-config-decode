@@ -1,9 +1,5 @@
-﻿using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Text.Unicode;
-using Org.BouncyCastle.Crypto;
+﻿using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Fennekit.SpringCloudConfig.Decrypt;
 
