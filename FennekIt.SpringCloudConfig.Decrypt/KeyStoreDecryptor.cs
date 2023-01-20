@@ -13,14 +13,28 @@ public class KeyStoreDecryptor : ITextDecryptor
     private readonly string _salt;
     private readonly bool _strong;
 
-    public KeyStoreDecryptor(string filename, string password, string alias, string salt = "deadbeaf", bool strong = false)
+    public KeyStoreDecryptor(string filename, string password, string alias, string salt = "deadbeaf",
+        bool strong = false, string algorithm = "DEFAULT")
     {
         _salt = salt;
         _strong = strong;
         var keyProvider = new KeyProvider(filename, password);
         var asymmetricKeyParameter = keyProvider.GetKey(alias);
-        _cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1");
+        _cipher = GetCyper(algorithm);
         _cipher.Init(false, asymmetricKeyParameter);
+    }
+
+    private IBufferedCipher GetCyper(string algorithm)
+    {
+        switch (algorithm.ToUpper())
+        {
+            case "DEFAULT":
+                return CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+            case "OAEP": 
+                return CipherUtilities.GetCipher("RSA/ECB/PKCS1");
+        }
+
+        throw new ArgumentException("algortithm should be one of DEFAULT or OAEP");
     }
 
     public string Decrypt(string cipher)
@@ -30,11 +44,11 @@ public class KeyStoreDecryptor : ITextDecryptor
         var length = readInt(msDecrypt);
         byte[] random = new byte[length];
         msDecrypt.Read(random);
-        var secret =  Convert.ToHexString(_cipher.DoFinal(random)).ToLower();
-        
+        var secret = Convert.ToHexString(_cipher.DoFinal(random)).ToLower();
+
         byte[] buffer = new byte[fullCipher.Length - random.Length - 2];
         msDecrypt.Read(buffer);
-        
+
         TextDecryptor decryptor = new TextDecryptor(secret, salt: _salt, strong: _strong);
         return decryptor.Decrypt(buffer);
     }
