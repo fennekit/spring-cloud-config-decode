@@ -64,5 +64,14 @@ public class RsaKeyStoreDecryptorTest
             "AQAhwKArLZqxrc44G2sG6+EwWeqn9JytaIyBpf/Yz2UZ0bLZthR3HPtGgOoKY9AkWpBuRzrw3zQ20ZRkq6q7XU+Stp1kB4OXhrmgbwydNUtYJmuTlpGohtHH8wVoT2n0bd7NuL9rJ2OAbkPXg8K1kJMSgen7Hyg3b+LFZmaA8wCHXdmHuP63Rk4NhSec4Ul/gRRn5jftojmbxVVQ6xRGAeFTZi70oAZ+tzdyXZmukorRZsUtnlgj94aSmGdMCGkukanCiEHHrh130Nigxba4qZ2F2e5n46De7+7EVwnIWWYa2sQH+3BQ+cp5OCebWMiGPdylqZzyTagkwo2jHv/OzW0/ytIF1Qo3AblMQgympSL3/PMPggllopaf2al4o7w63vWczXdv6YzdLchQMrdXRdkLrw==",
             "encrypt the world"
         };
+        
+        yield return new[]
+        {
+            "nohexsaltvalue",
+            "true",
+            "DEFAULT",
+            "AQA+sdMQ94WuW7DMBX7ZJQeWaybtFWJqAeVv9kmHyVCwil3yobQPXMxuoF/FGpZgYQu+9JyK52jnuIXiARdyqqaDKxY7ECN/8GLVXdcQi5ooO+ewyOrL53fycyyB2iQtZphbdgmzU2qKQkXvFcWQkauHCCtni6IemITLX/y9O3I6Ss9LEK86lSAWKD1Tikf9ly78vJsCJ01ahQhEQVMbkpTixnnFRgqSL7XZo+2FGMvsyYKHp9pQwEnLkbehI8AFODQlFsTcQ9YYab5lGa4OoYw+5oS3fFH8XlIvVSTfxipI18iyphppz3EefvuGd8FwgSGCbfIeQ2R2zcYxykfWgCgSH5ckev2EqeLaiyaK3tXFanumQBeLiSg7Uii80jg9LLJ62jyrR16m0+8CGqaw6uzZkQ==",
+            "encrypt the world"
+        };
     }
 }
