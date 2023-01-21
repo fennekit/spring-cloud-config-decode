@@ -18,17 +18,21 @@ public class AesTextDecryptor : ITextDecryptor
             ? CipherUtilities.GetCipher("AES/GCM/NoPadding")
             : CipherUtilities.GetCipher("AES/CBC/PKCS5Padding");
 
-        byte[] saltBytes;
+        byte[] saltBytes = GetSaltBytes(salt);
+
+        _key =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, KEYSIZE / 8);
+    }
+
+    private static byte[] GetSaltBytes(string salt)
+    {
         try
         {
-            saltBytes = Convert.FromHexString(salt);
+            return Convert.FromHexString(salt);
         }
         catch
         {
-            saltBytes = UTF8Encoding.Default.GetBytes(salt);
+            return UTF8Encoding.Default.GetBytes(salt);
         }
-
-        _key =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, KEYSIZE / 8);
     }
 
     public string Decrypt(string cipher)
