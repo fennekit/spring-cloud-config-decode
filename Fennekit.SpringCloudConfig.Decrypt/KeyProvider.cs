@@ -9,7 +9,8 @@ public class KeyProvider
 
     public KeyProvider(string fileName, string pfxPassword)
     {
-        _pkcs12 = new Pkcs12Store(new FileStream(fileName, FileMode.Open, FileAccess.Read), pfxPassword.ToArray());
+        _pkcs12 = new Pkcs12StoreBuilder().Build();
+        _pkcs12.Load(new FileStream(fileName, FileMode.Open, FileAccess.Read), pfxPassword.ToArray());
     }
 
     public AsymmetricKeyParameter GetKey(string keyAlias)
