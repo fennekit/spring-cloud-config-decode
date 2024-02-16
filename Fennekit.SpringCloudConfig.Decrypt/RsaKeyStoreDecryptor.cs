@@ -56,7 +56,7 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
 
     public byte[] Decrypt(byte[] fullCipher)
     {
-        _cipher.Init(false, _keyprovider.GetKey(_alias));
+        _cipher.Init(false, _keyprovider.GetPrivateKey(_alias));
    
         using var ms = new MemoryStream(fullCipher);
         var secretLength = ReadSecretLenght(ms);
@@ -73,7 +73,7 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
 
     public byte[] Encrypt(byte[] clearText)
     {
-        _cipher.Init(true, _keyprovider.GetKey(_alias));
+        _cipher.Init(true, _keyprovider.GetPublicKey(_alias));
        
         byte[] key = new byte[16];
         _random.NextBytes(key);

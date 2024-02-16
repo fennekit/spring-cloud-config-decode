@@ -1,4 +1,6 @@
 ﻿using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Pkcs;
 
 namespace Fennekit.SpringCloudConfig.Decrypt;
@@ -13,8 +15,15 @@ public class KeyProvider
         _pkcs12.Load(new FileStream(fileName, FileMode.Open, FileAccess.Read), pfxPassword.ToArray());
     }
 
-    public AsymmetricKeyParameter GetKey(string keyAlias)
+    public AsymmetricKeyParameter GetPrivateKey(string keyAlias)
     {
         return _pkcs12.GetKey(keyAlias).Key;
     }
+    
+    public AsymmetricKeyParameter GetPublicKey(string keyAlias)
+    {
+        return _pkcs12.GetCertificate(keyAlias).Certificate.GetPublicKey();
+    }
+    
+    
 }
