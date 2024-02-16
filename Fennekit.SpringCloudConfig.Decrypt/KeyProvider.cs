@@ -24,6 +24,4 @@ public class KeyProvider
     {
         return _pkcs12.GetCertificate(keyAlias).Certificate.GetPublicKey();
     }
-    
-    
 }

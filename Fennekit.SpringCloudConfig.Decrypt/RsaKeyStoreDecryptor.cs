@@ -77,22 +77,23 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
        
         byte[] key = new byte[16];
         _random.NextBytes(key);
-        var encryptedSecret = _cipher.DoFinal(key);
-      
+        
         var hexKey = Convert.ToHexString(key).ToLower();
         var decryptor = new AesTextDecryptor(hexKey, salt: _salt, strong: _strong);
         var cipherTextBytes = decryptor.Encrypt(clearText);
+        
+        var encryptedSecret = _cipher.DoFinal(key);
         byte[] fullCipher = new byte[cipherTextBytes.Length + encryptedSecret.Length + 2];
         
         using var ms = new MemoryStream(fullCipher);
-        WriteSecretLenght(ms, (short)encryptedSecret.Length);
+        WriteSecretLength(ms, (short)encryptedSecret.Length);
         ms.Write(encryptedSecret);
         ms.Write(cipherTextBytes);
 
         return fullCipher;
     }
 
-    private void WriteSecretLenght(MemoryStream ms, short length)
+    private void WriteSecretLength(MemoryStream ms, short length)
     {
         byte[] b = new byte[2];
         BinaryPrimitives.WriteInt16BigEndian(b, length);

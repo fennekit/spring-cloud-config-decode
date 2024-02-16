@@ -27,7 +27,32 @@ public class RsaKeyStoreDecryptionTest
         {
             "deadbeef",
             "false",
-            "OAEP", 
+            "OAEP",
+            "encrypt the world"
+        };
+
+        yield return new[]
+        {
+            "beefdead",
+            "true",
+            "OAEP",
+            "encrypt the world"
+        };
+
+
+        yield return new[]
+        {
+            "beefdead",
+            "true",
+            "DEFAULT",
+            "encrypt the world"
+        };
+        
+        yield return new[]
+        {
+            "nohexsaltvalue",
+            "true",
+            "DEFAULT", 
             "encrypt the world"
         };
         
