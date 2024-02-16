@@ -11,9 +11,11 @@ public class AesTextDecryptor : ITextDecryptor
     private readonly short KEYSIZE = 256;
     private readonly byte[] _key;
     private readonly IBufferedCipher _cipher;
+    private SecureRandom _random;
 
     public AesTextDecryptor(string key, string salt = "deadbeef", bool strong = false)
     {
+        _random = new SecureRandom();
         _cipher = strong
             ? CipherUtilities.GetCipher("AES/GCM/NoPadding")
             : CipherUtilities.GetCipher("AES/CBC/PKCS5Padding");
@@ -38,11 +40,33 @@ public class AesTextDecryptor : ITextDecryptor
     public string Decrypt(string cipher)
     {
         var fullCipher = Convert.FromHexString(cipher);
+        var clearTextBytes = Decrypt(fullCipher);
+        return UTF8Encoding.Default.GetString(clearTextBytes);
+    }
+  
 
-        return Decrypt(fullCipher);
+    public string Encrypt(string text)
+    {
+        var cipherBytes = UTF8Encoding.Default.GetBytes(text);
+        var fullCipher = Encrypt(cipherBytes);
+        return Convert.ToHexString(fullCipher);
     }
 
-    public string Decrypt(byte[] fullCipher)
+    public byte[] Encrypt(byte[] bytes)
+    {
+        byte[] iv = new byte[16];
+        _random.NextBytes(iv);
+        InitializeCipher(true, iv);
+        var cipherText = _cipher.DoFinal(bytes);
+        var fullCipher = new byte[cipherText.Length + 16];
+
+        using var ms = new MemoryStream(fullCipher);
+        ms.Write(iv);
+        ms.Write(cipherText);
+        return fullCipher;
+    }
+
+    public byte[] Decrypt(byte[] fullCipher)
     {
         var iv = new byte[16];
         var cipherBytes = new byte[fullCipher.Length - 16];
@@ -51,16 +75,15 @@ public class AesTextDecryptor : ITextDecryptor
         ms.Read(iv);
         ms.Read(cipherBytes);
         
-        InitializeCipher(iv);
+        InitializeCipher(false, iv);
 
-        var clearTextBytes = _cipher.DoFinal(cipherBytes);
-        return UTF8Encoding.Default.GetString(clearTextBytes);
+        return _cipher.DoFinal(cipherBytes);
     }
 
-    private void InitializeCipher(byte[] iv)
+    private void InitializeCipher(bool decrypt, byte[] iv)
     {
         var keyParam = new KeyParameter(_key);
         var keyParameters = new ParametersWithIV(keyParam, iv);
-        _cipher.Init(false, keyParameters);
+        _cipher.Init(decrypt, keyParameters);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Buffers.Binary;
+using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 
@@ -37,10 +38,17 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
     public string Decrypt(string cipher)
     {
         var fullCipher = Convert.FromBase64String(cipher);
-        return Decrypt(fullCipher);
+        var clearTextBytes =  Decrypt(fullCipher);
+        return UTF8Encoding.Default.GetString(clearTextBytes);
+
     }
 
-    public string Decrypt(byte[] fullCipher)
+    public string Encrypt(string text)
+    {
+        throw new NotImplementedException();
+    }
+
+    public byte[] Decrypt(byte[] fullCipher)
     {
         using var ms = new MemoryStream(fullCipher);
 
@@ -55,7 +63,12 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
         AesTextDecryptor decryptor = new AesTextDecryptor(secret, salt: _salt, strong: _strong);
         return decryptor.Decrypt(cipherTextBytes);
     }
-    
+
+    public byte[] Encrypt(byte[] fullCipher)
+    {
+        throw new NotImplementedException();
+    }
+
     private int ReadSecretLenght(MemoryStream ms)
     {
         byte[] b = new byte[2];
