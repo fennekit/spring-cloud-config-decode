@@ -8,11 +8,12 @@ namespace Fennekit.SpringCloudConfig.Decrypt;
 
 public class AesTextDecryptor : ITextDecryptor
 {
-    private readonly short KEYSIZE = 256;
-    private readonly byte[] _key;
+    private const short KeySize = 256;
     private readonly IBufferedCipher _cipher;
-    private SecureRandom _random;
+    private readonly KeyParameter _keyParam;
+    private readonly SecureRandom _random;
 
+    
     public AesTextDecryptor(string key, string salt = "deadbeef", bool strong = false)
     {
         _random = new SecureRandom();
@@ -20,9 +21,9 @@ public class AesTextDecryptor : ITextDecryptor
             ? CipherUtilities.GetCipher("AES/GCM/NoPadding")
             : CipherUtilities.GetCipher("AES/CBC/PKCS5Padding");
 
-        byte[] saltBytes = GetSaltBytes(salt);
-
-        _key =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, KEYSIZE / 8);
+        var saltBytes = GetSaltBytes(salt);
+        var keyBytes =  KeyDerivation.Pbkdf2(key, saltBytes, KeyDerivationPrf.HMACSHA1, 1024, KeySize / 8);
+        _keyParam = new KeyParameter(keyBytes);
     }
 
     private static byte[] GetSaltBytes(string salt)
@@ -33,7 +34,7 @@ public class AesTextDecryptor : ITextDecryptor
         }
         catch
         {
-            return UTF8Encoding.Default.GetBytes(salt);
+            return Encoding.UTF8.GetBytes(salt);
         }
     }
 
@@ -41,21 +42,22 @@ public class AesTextDecryptor : ITextDecryptor
     {
         var fullCipher = Convert.FromHexString(cipher);
         var clearTextBytes = Decrypt(fullCipher);
-        return UTF8Encoding.Default.GetString(clearTextBytes);
+        return Encoding.UTF8.GetString(clearTextBytes);
     }
   
 
     public string Encrypt(string text)
     {
-        var cipherBytes = UTF8Encoding.Default.GetBytes(text);
+        var cipherBytes = Encoding.UTF8.GetBytes(text);
         var fullCipher = Encrypt(cipherBytes);
         return Convert.ToHexString(fullCipher);
     }
 
     public byte[] Encrypt(byte[] bytes)
     {
-        byte[] iv = new byte[16];
+        var iv = new byte[16];
         _random.NextBytes(iv);
+        
         InitializeCipher(true, iv);
         var cipherText = _cipher.DoFinal(bytes);
         var fullCipher = new byte[cipherText.Length + 16];
@@ -72,8 +74,16 @@ public class AesTextDecryptor : ITextDecryptor
         var cipherBytes = new byte[fullCipher.Length - 16];
 
         using var ms = new MemoryStream(fullCipher);
-        ms.Read(iv);
-        ms.Read(cipherBytes);
+        var bytesRead = ms.Read(iv);
+        if (bytesRead != iv.Length)
+        {
+            throw new DecryptException("Error reading IV from stream");
+        }
+        bytesRead = ms.Read(cipherBytes);
+        if (bytesRead != cipherBytes.Length)
+        {
+            throw new DecryptException("Error reading cipherBytes from stream");
+        }
         
         InitializeCipher(false, iv);
 
@@ -82,8 +92,7 @@ public class AesTextDecryptor : ITextDecryptor
 
     private void InitializeCipher(bool decrypt, byte[] iv)
     {
-        var keyParam = new KeyParameter(_key);
-        var keyParameters = new ParametersWithIV(keyParam, iv);
+        var keyParameters = new ParametersWithIV(_keyParam, iv);
         _cipher.Init(decrypt, keyParameters);
     }
 }

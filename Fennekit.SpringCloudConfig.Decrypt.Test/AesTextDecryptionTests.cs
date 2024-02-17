@@ -14,13 +14,13 @@ public class AesTextDecryptionTests
         Assert.That(decrypted, Is.EqualTo(plainText));
     }
 
-    static IEnumerable<object[]> GetTestVector()
+    private static IEnumerable<object[]> GetTestVector()
     {
-        yield return new[]
-        {
+        yield return
+        [
             "deadbeef",
             "12345678901234567890",
             "encrypt the world"
-        }; 
+        ]; 
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Pkcs;
 
 namespace Fennekit.SpringCloudConfig.Decrypt;
