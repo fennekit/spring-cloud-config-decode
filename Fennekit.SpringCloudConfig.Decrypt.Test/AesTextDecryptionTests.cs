@@ -6,7 +6,7 @@ public class AesTextDecryptionTests
 {
     [Test]
     [TestCaseSource(nameof(GetTestVector))]
-    public void DecodeTestForSpringConfigCipher(string salt, string key, string plainText)
+    public void EncryptionShouldBeDecryptable(string salt, string key, string plainText)
     {
         var textDecryptor = new AesTextDecryptor(key, salt);
         var cipher = textDecryptor.Encrypt(plainText);
@@ -14,6 +14,18 @@ public class AesTextDecryptionTests
         Assert.That(decrypted, Is.EqualTo(plainText));
     }
 
+    [Test]
+    [TestCaseSource(nameof(GetTestVector))]
+    public void EncryptionShouldAlwaysBeDifferent(string salt, string key, string plainText)
+    {
+        var decryptor = new AesTextDecryptor(key, salt);
+          
+        var encrypt1 = decryptor.Encrypt(plainText);
+        var encrypt2 = decryptor.Encrypt(plainText);
+        
+        Assert.That(encrypt1, Is.Not.EqualTo(encrypt2));
+    }
+    
     private static IEnumerable<object[]> GetTestVector()
     {
         yield return
