@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FennekIt.SpringCloudConfig.Decrypt\FennekIt.SpringCloudConfig.Decrypt.csproj" />
+      <ProjectReference Include="..\Fennekit.SpringCloudConfig.Decrypt\Fennekit.SpringCloudConfig.Decrypt.csproj" />
     </ItemGroup>
 
     <ItemGroup>

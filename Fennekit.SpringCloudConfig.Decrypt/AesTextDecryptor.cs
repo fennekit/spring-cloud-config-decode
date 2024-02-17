@@ -70,6 +70,11 @@ public class AesTextDecryptor : ITextDecryptor
 
     public byte[] Decrypt(byte[] fullCipher)
     {
+        if (fullCipher.Length <= 16)
+        {
+            throw new DecryptException("Incomplete IV in cipher");
+        }
+        
         var iv = new byte[16];
         var cipherBytes = new byte[fullCipher.Length - 16];
 
@@ -86,8 +91,14 @@ public class AesTextDecryptor : ITextDecryptor
         }
         
         InitializeCipher(false, iv);
-
-        return _cipher.DoFinal(cipherBytes);
+        try
+        {
+            return _cipher.DoFinal(cipherBytes);
+        }
+        catch (Exception ex)
+        {
+            throw new DecryptException("Failed to decrypt cipher.", ex);
+        }
     }
 
     private void InitializeCipher(bool decrypt, byte[] iv)

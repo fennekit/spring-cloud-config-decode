@@ -15,11 +15,23 @@ public class KeyProvider
 
     public AsymmetricKeyParameter GetPrivateKey(string keyAlias)
     {
-        return _pkcs12.GetKey(keyAlias).Key;
+        var key = _pkcs12.GetKey(keyAlias)?.Key;
+        if (key is null)
+        {
+            throw new DecryptException($"No private key found with alias '{keyAlias}'");
+        }
+
+        return key;
     }
     
     public AsymmetricKeyParameter GetPublicKey(string keyAlias)
     {
-        return _pkcs12.GetCertificate(keyAlias).Certificate.GetPublicKey();
+        var key = _pkcs12.GetCertificate(keyAlias)?.Certificate?.GetPublicKey();
+        if (key is null)
+        {
+            throw new DecryptException($"No public key found with alias '{keyAlias}'");
+        }
+
+        return key;
     }
 }

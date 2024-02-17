@@ -26,6 +26,16 @@ public class AesTextDecryptionTests
         Assert.That(encrypt1, Is.Not.EqualTo(encrypt2));
     }
     
+    private static IEnumerable<object[]> GetEx()
+    {
+        yield return
+        [
+            "deadbeef",
+            "12345678901234567890",
+            "encrypt the world"
+        ]; 
+    }
+    
     private static IEnumerable<object[]> GetTestVector()
     {
         yield return

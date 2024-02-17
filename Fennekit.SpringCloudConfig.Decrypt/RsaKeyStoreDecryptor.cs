@@ -14,7 +14,6 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
     private readonly IBufferedCipher _cipher;
     private readonly SecureRandom _random;
 
-
     public RsaKeyStoreDecryptor(string filename, string password, string alias, string salt = "deadbeaf",
         bool strong = false, string algorithm = "DEFAULT")
     {
@@ -56,8 +55,19 @@ public class RsaKeyStoreDecryptor : ITextDecryptor
         _cipher.Init(false, _keyprovider.GetPrivateKey(_alias));
         using var ms = new MemoryStream(fullCipher);
         var secretLength = ReadSecretLenght(ms);
+        if (secretLength < 0)
+        {
+            throw new DecryptException($"Incorrect secret length {secretLength}.");
+        }
+
+        var cipherTextLength = fullCipher.Length - secretLength - 2;
+        if (cipherTextLength < 0)
+        {
+            throw new DecryptException($"Incorrect cipher length.");
+        }
+        
         var secretBytes = new byte[secretLength];
-        var cipherTextBytes = new byte[fullCipher.Length - secretBytes.Length - 2]; 
+        var cipherTextBytes = new byte[cipherTextLength]; 
         var bytesRead = ms.Read(secretBytes);
         if (bytesRead != secretBytes.Length)
         {
