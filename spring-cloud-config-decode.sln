@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fennekit.SpringCloudConfig.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fennekit.SpringCloudConfig.Decrypt.Test", "Fennekit.SpringCloudConfig.Decrypt.Test\Fennekit.SpringCloudConfig.Decrypt.Test.csproj", "{D1C81C0A-6E0D-4703-AEB8-2152DB2D50E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fennekit.SpringCloudConfig.EncryptTool", "Fennekit.SpringCloudConfig.EncryptTool\Fennekit.SpringCloudConfig.EncryptTool.csproj", "{25BA46E8-8A03-498C-BD00-781F69AA9E76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D1C81C0A-6E0D-4703-AEB8-2152DB2D50E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1C81C0A-6E0D-4703-AEB8-2152DB2D50E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1C81C0A-6E0D-4703-AEB8-2152DB2D50E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25BA46E8-8A03-498C-BD00-781F69AA9E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25BA46E8-8A03-498C-BD00-781F69AA9E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25BA46E8-8A03-498C-BD00-781F69AA9E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25BA46E8-8A03-498C-BD00-781F69AA9E76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
