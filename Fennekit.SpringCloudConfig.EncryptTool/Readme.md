@@ -20,6 +20,7 @@ To uninstall:
 ```
 
 ## Usage
+
 To use the encryption tool:
 
 ```bash
