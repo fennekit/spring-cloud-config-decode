@@ -21,10 +21,20 @@ To uninstall:
 
 ## Usage
 
-To use the encryption tool:
+To use the encryption tool for AES:
 
 ```bash
 spring-encrypt encrypt aes [key] [plaintext]
 ```
 
+To use the encryption tool for AES:
+
+```bash
+spring-encrypt encrypt rsa [plaintext] --keystore ./server.jks --password letmein --alias mytestkey
+```
+
+For more details use
+```bash
+spring-encrypt --help 
+```
 
