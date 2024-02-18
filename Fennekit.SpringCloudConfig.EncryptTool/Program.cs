@@ -24,7 +24,6 @@ var aesEncryptCommand = new Command("aes", "Encrypt with AES")
 encryptCommand.AddCommand(aesEncryptCommand);
 aesEncryptCommand.Add(aeskey);
 aesEncryptCommand.Add(plainText);
-
 aesEncryptCommand.SetHandler((salt, strong, key, text) =>
 {
     var decryptor = new AesTextDecryptor(key, salt, strong);
@@ -59,7 +58,7 @@ var rsaEncryptCommand = new Command("rsa", "Encrypt with RSA")
     algorithm
 };
 rsaEncryptCommand.Add(plainText);
-encryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword, algorithm, plainText) =>
+rsaEncryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword, algorithm, plainText) =>
 {
     var decryptor = new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm);
     Console.WriteLine(decryptor.Encrypt(plainText));
@@ -97,7 +96,6 @@ rsaDecryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword
     var decryptor = new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm);
     Console.WriteLine(decryptor.Decrypt(cipherText));
 }, aessalt, aesstrong, keystoreFilename, keyAlias, keystorePassword, algorithm, cipherText);
-
 decryptCommand.AddCommand(rsaDecryptCommand);
 
 
