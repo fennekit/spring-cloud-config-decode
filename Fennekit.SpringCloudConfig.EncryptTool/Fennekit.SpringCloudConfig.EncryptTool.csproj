@@ -8,6 +8,12 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>spring-encrypt</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
+        <Authors>Fennek IT BV, Erik Konijnenburg</Authors>
+        <Description>Dotnet tool for creating Spring Cloud Config/Steeltoe Config secrets.</Description>
+        <Copyright>Fennek IT BV</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/fennekit/spring-cloud-config-decode</RepositoryUrl>
+        <PackageTags>Spring Cloud Config, Steeltoe, Enryption</PackageTags>
     </PropertyGroup>
 
     <PropertyGroup>
