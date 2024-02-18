@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Fennekit.SpringCloudConfig.Decrypt.Test;
 
-public class AesTextEncryptionTests
+public class AesTextDecryptionTests
 {
     [Test]
     [TestCaseSource(nameof(GetExceptionVector))]

@@ -10,6 +10,14 @@
         <PackageOutputPath>./nupkg</PackageOutputPath>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="Readme.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\Fennekit.SpringCloudConfig.Decrypt\Fennekit.SpringCloudConfig.Decrypt.csproj" />
     </ItemGroup>
