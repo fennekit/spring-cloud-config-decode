@@ -40,10 +40,10 @@ var rsaEncryptCommand = new Command("rsa", "Encrypt with RSA")
 rsaEncryptCommand.Add(Arguments.PlainText);
 rsaEncryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword, algorithm, plainText) =>
     {
-        var decryptor =
-            new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
-        try
+         try
         {
+            var decryptor =
+                new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
             Console.WriteLine();
             Console.WriteLine(decryptor.Encrypt(plainText));
             Console.WriteLine();
