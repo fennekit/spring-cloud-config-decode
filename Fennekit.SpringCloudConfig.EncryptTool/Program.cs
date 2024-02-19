@@ -13,10 +13,18 @@ aesEncryptCommand.Add(Arguments.AesKey);
 aesEncryptCommand.Add(Arguments.PlainText);
 aesEncryptCommand.SetHandler((salt, strong, key, plainText) =>
 {
-    var decryptor = new AesTextDecryptor(key, salt, strong);
-    Console.WriteLine();
-    Console.WriteLine(decryptor.Encrypt(plainText));
-    Console.WriteLine();
+    try
+    {
+        var decryptor = new AesTextDecryptor(key, salt, strong);
+        Console.WriteLine();
+        Console.WriteLine(decryptor.Encrypt(plainText));
+        Console.WriteLine();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        Environment.Exit(-1);
+    }
 }, Options.AesSalt, Options.AesStrong, Arguments.AesKey, Arguments.PlainText);
 
 
@@ -31,12 +39,22 @@ var rsaEncryptCommand = new Command("rsa", "Encrypt with RSA")
 };
 rsaEncryptCommand.Add(Arguments.PlainText);
 rsaEncryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword, algorithm, plainText) =>
-{
-    var decryptor = new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
-    Console.WriteLine();
-    Console.WriteLine(decryptor.Encrypt(plainText));
-    Console.WriteLine();
-}, Options.AesSalt, Options.AesStrong, Options.KeystoreFilename, Options.KeyAlias, Options.KeystorePassword, Options.Algorithm, Arguments.PlainText);
+    {
+        var decryptor =
+            new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
+        try
+        {
+            Console.WriteLine();
+            Console.WriteLine(decryptor.Encrypt(plainText));
+            Console.WriteLine();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Environment.Exit(-1);
+        }
+    }, Options.AesSalt, Options.AesStrong, Options.KeystoreFilename, Options.KeyAlias, Options.KeystorePassword,
+    Options.Algorithm, Arguments.PlainText);
 encryptCommand.AddCommand(rsaEncryptCommand);
 
 
@@ -50,10 +68,18 @@ aesDecryptCommand.Add(Arguments.AesKey);
 aesDecryptCommand.Add(Arguments.CipherText);
 aesDecryptCommand.SetHandler((salt, strong, key, cipher) =>
 {
-    var decryptor = new AesTextDecryptor(key, salt, strong);
-    Console.WriteLine();
-    Console.WriteLine(decryptor.Decrypt(cipher));
-    Console.WriteLine();
+    try
+    {
+        var decryptor = new AesTextDecryptor(key, salt, strong);
+        Console.WriteLine();
+        Console.WriteLine(decryptor.Decrypt(cipher));
+        Console.WriteLine();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        Environment.Exit(-1);
+    }
 }, Options.AesSalt, Options.AesStrong, Arguments.AesKey, Arguments.CipherText);
 decryptCommand.AddCommand(aesDecryptCommand);
 
@@ -68,15 +94,26 @@ var rsaDecryptCommand = new Command("rsa", "Decrypt with RSA")
 };
 rsaDecryptCommand.Add(Arguments.CipherText);
 rsaDecryptCommand.SetHandler((salt, strong, filename, keyAlias, keystorePassword, algorithm, cipherText) =>
-{
-    var decryptor = new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
-    Console.WriteLine();
-    Console.WriteLine(decryptor.Decrypt(cipherText));
-    Console.WriteLine();
-},  Options.AesSalt, Options.AesStrong, Options.KeystoreFilename, Options.KeyAlias, Options.KeystorePassword, Options.Algorithm, Arguments.CipherText);
+    {
+        try
+        {
+            var decryptor =
+                new RsaKeyStoreDecryptor(filename, keystorePassword, keyAlias, salt, strong, algorithm.ToString());
+            Console.WriteLine();
+            Console.WriteLine(decryptor.Decrypt(cipherText));
+            Console.WriteLine();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Environment.Exit(-1);
+        }
+    }, Options.AesSalt, Options.AesStrong, Options.KeystoreFilename, Options.KeyAlias, Options.KeystorePassword,
+    Options.Algorithm, Arguments.CipherText);
 decryptCommand.AddCommand(rsaDecryptCommand);
 
-var rootCommand = new RootCommand("Encryption for Spring Boot Cloud (https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_encryption_and_decryption) config and Steeltoe.Encryption (https://github.com/SteeltoeOSS/Documentation/blob/v4/api/v4/configuration/encryption-resolver.md).");
+var rootCommand = new RootCommand(
+    "Encryption for Spring Boot Cloud (https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_encryption_and_decryption) config and Steeltoe.Encryption (https://github.com/SteeltoeOSS/Documentation/blob/v4/api/v4/configuration/encryption-resolver.md).");
 
 rootCommand.AddCommand(encryptCommand);
 rootCommand.AddCommand(decryptCommand);
