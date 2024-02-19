@@ -18,10 +18,12 @@ public static class Options
             name: "--keystore",
             description: "Keystore containing the private and/or public key"
         );
+        KeystoreFilename.IsRequired = true;
         KeyAlias = new(
             name: "--alias",
             description: "Alias of the key in the store"
         );
+        KeyAlias.IsRequired = true;
         
         KeystorePassword = new(
             name: "--password",
