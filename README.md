@@ -2,10 +2,10 @@
 
 [Spring Cloud Config](https://docs.spring.io/spring-cloud-config/docs/current/reference/html/) allows for encryption of secrets. 
 
-The encrypt key is generated from a secret using Pbkdf2 (Salt (default value *DEADBEEF*), 1024 iteration, SHA1) to generate a 256 bit key used in the AES encryption.
+Having to start the server in encrypt mode is cumbersome.
 
-The initial 16 byte from the cypher from Spring Cloud config are the IV of the AES encryptrion. The rest of the cipher is the cipher text. 
+The commandline tool [spring-encrypt](./Fennekit.SpringCloudConfig.EncryptTool/Readme.md)
+allows for the encryption of secrets that can be used by [Steeltoe v4](https://github.com/SteeltoeOSS/Steeltoe).
 
-There appears to be an issue with config server https://github.com/spring-cloud/spring-cloud-config/issues/2208. It appears to always use the default salt, strong, and algorithm settings
-
-~~Could be useful for~~ Used in https://github.com/SteeltoeOSS/Steeltoe/issues/509
+In this [Readme](./Fennekit.SpringCloudConfig.Decrypt/Readme.md) a highlevel description
+of the encryption method is given.
