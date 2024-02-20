@@ -1,4 +1,3 @@
-using Fennekit.SpringCloudConfig.Decrypt;
 using NUnit.Framework;
 
 namespace Fennekit.SpringCloudConfig.Decrypt.Test;
