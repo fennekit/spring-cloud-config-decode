@@ -8,7 +8,7 @@ vector (IV) is used to encrypt the plaintext. The IV is
 concatenated with the ciphertext and returned as a HEX string.
 
 # RSA encryption
-
+ 
 The plain text is encrypted as in the case of AES encryption 
 (be it with some additional config options (salt, strong)).
 The secret used to AES encrypt is then encrypted with a public key. 
