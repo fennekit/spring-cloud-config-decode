@@ -10,7 +10,7 @@ concatenated with the ciphertext and returned as a HEX string.
 # RSA encryption
  
 The plain text is encrypted as in the case of AES encryption 
-(be it with some additional config options (salt, strong)).
-The secret used to AES encrypt is then encrypted with a public key. 
-The RSA encrypted secret is then concatenated with the AES cipher text and 
+(be it with some additional config options (salt, strong)). It uses a random 16 byte secret.
+The secret used to AES encrypt is then encrypted with a public key using RSA. 
+The RSA encrypted secret is then concatenated with the result from AES encryption (IV concatenated with ciphertext) and 
 returned as a BASE64 encoded string.
